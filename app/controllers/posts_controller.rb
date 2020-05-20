@@ -33,9 +33,12 @@ class PostsController < ApplicationController
       else
         pp @post.errors
         @post.comments.each do |comment|
+          pp "======== start ========"
           pp comment.errors
+          pp "comment invalid?  #{comment.invalid?}"
+          pp "======== end ========"
         end
-        format.html { broadcast_errors @post, post_params }
+        format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
