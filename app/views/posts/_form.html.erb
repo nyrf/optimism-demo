@@ -23,6 +23,24 @@
     <%= form.error_for :consent, class: "danger hide" %>
   <% end %>
 
+   <div data-controller="nested-form">
+    <template data-target="nested-form.template">
+      <%= form.fields_for :comments, Comment.new, child_index: "NEW_RECORD" do |comment| %>
+        <%= render "comment_fields", form: comment %>
+      <% end %>
+    </template>
+
+    <div class="comments" data-target="nested-form.items">
+        <%= form.fields_for :comments do |comment| %>
+      <%= render "comment_fields", form: comment %>
+    <% end %>
+    </div>
+
+    <div data-target="nested-form.links">
+      <%= link_to "Add Comment", "#", data: { action: "click->nested-form#add_association" } %>
+    </div>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

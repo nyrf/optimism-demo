@@ -31,6 +31,10 @@ class PostsController < ApplicationController
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
+        pp @post.errors
+        @post.comments.each do |comment|
+          pp comment.errors
+        end
         format.html { broadcast_errors @post, post_params }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
@@ -45,7 +49,7 @@ class PostsController < ApplicationController
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render :show, status: :ok, location: @post }
       else
-        format.html { broadcast_errors @post, post_params }
+        format.html { render :edit }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
@@ -69,6 +73,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:name, :age, :body, :consent)
+      params.require(:post).permit(:name, :age, :body, :consent, comments_attributes: %i[id body _destroy])
     end
 end

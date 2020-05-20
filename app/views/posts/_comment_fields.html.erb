@@ -1,0 +1,11 @@
+<%= content_tag :div, class: "nested-fields", data: { new_record: form.object.new_record? } do %>
+<%= debug form.object.errors.messages %>
+   <div class="item">
+       <%= form.container_for :body, class: "field" do %>
+         <%= form.text_field :body %>
+         <%= form.error_for :body %>
+       <% end %>
+      <small><%= link_to "Delete", "#", data: { action: "click->nested-form#remove_association" } %></small>
+      <%= form.hidden_field :_destroy %>
+   </div>
+<% end %>
